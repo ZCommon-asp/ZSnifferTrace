@@ -3,6 +3,7 @@ package com.mango.sniffertrace.annotation.aop;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mango.sniffertrace.annotation.OperationLog;
 import com.mango.sniffertrace.request.LocalTrace;
+import com.mango.sniffertrace.request.MDCTrace;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -44,6 +45,14 @@ public class OperationLogAop {
     public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
         // 方法开始时间
         long startTime = System.currentTimeMillis();
+
+        /*
+         * MDC
+         * 判断是否有唯一id，没有则生成一个并存至MDC
+         */
+        if ("".equals(MDCTrace.get())) {
+            MDCTrace.put();
+        }
 
         // 获取方法签名
         Signature signature = pjp.getSignature();
