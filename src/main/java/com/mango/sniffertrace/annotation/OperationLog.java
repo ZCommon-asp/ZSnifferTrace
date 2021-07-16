@@ -12,14 +12,10 @@ import java.lang.annotation.*;
 public @interface OperationLog {
 
     /**
-     * 是否为入口位置
+     * 打印请求头参数
+     * @return
      */
-    boolean isEnter() default false;
-
-    /**
-     * 是否为结束位置
-     */
-    boolean isEnd() default true;
+    String[] printHeader();
 
     /**
      * 描述

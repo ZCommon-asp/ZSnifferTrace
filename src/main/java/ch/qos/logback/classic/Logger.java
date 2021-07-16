@@ -1,13 +1,13 @@
 /**
  * Logback: the reliable, generic, fast and flexible logging framework.
  * Copyright (C) 1999-2015, QOS.ch. All rights reserved.
- *
+ * <p>
  * This program and the accompanying materials are dual-licensed under
  * either the terms of the Eclipse Public License v1.0 as published by
  * the Eclipse Foundation
- *
- *   or (per the licensee's choosing)
- *
+ * <p>
+ * or (per the licensee's choosing)
+ * <p>
  * under the terms of the GNU Lesser General Public License version 2.1
  * as published by the Free Software Foundation.
  */
@@ -22,6 +22,7 @@ import ch.qos.logback.core.spi.AppenderAttachable;
 import ch.qos.logback.core.spi.AppenderAttachableImpl;
 import ch.qos.logback.core.spi.FilterReply;
 import com.mango.sniffertrace.annotation.aop.OperationLogAop;
+import com.mango.sniffertrace.request.LocalTrace;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 import org.slf4j.spi.LocationAwareLogger;
@@ -403,7 +404,7 @@ public final class Logger implements org.slf4j.Logger, LocationAwareLogger, Appe
             return;
         }
 
-        buildLoggingEventAndAppend(localFQCN, marker, level, msg, new Object[] { param }, t);
+        buildLoggingEventAndAppend(localFQCN, marker, level, msg, new Object[]{param}, t);
     }
 
     private void filterAndLog_2(final String localFQCN, final Marker marker, final Level level, final String msg, final Object param1, final Object param2,
@@ -419,7 +420,7 @@ public final class Logger implements org.slf4j.Logger, LocationAwareLogger, Appe
             return;
         }
 
-        buildLoggingEventAndAppend(localFQCN, marker, level, msg, new Object[] { param1, param2 }, t);
+        buildLoggingEventAndAppend(localFQCN, marker, level, msg, new Object[]{param1, param2}, t);
     }
 
     private void buildLoggingEventAndAppend(final String localFQCN, final Marker marker, final Level level, final String msg, final Object[] params,
@@ -500,102 +501,102 @@ public final class Logger implements org.slf4j.Logger, LocationAwareLogger, Appe
 
     @Override
     public void debug(String msg) {
-        filterAndLog_0_Or3Plus(FQCN, null, Level.DEBUG, msg, null, null);
+        filterAndLog_0_Or3Plus(FQCN, null, Level.DEBUG, LocalTrace.getTraceId() + msg, null, null);
     }
 
     @Override
     public void debug(String format, Object arg) {
-        filterAndLog_1(FQCN, null, Level.DEBUG, format, arg, null);
+        filterAndLog_1(FQCN, null, Level.DEBUG, LocalTrace.getTraceId() + format, arg, null);
     }
 
     @Override
     public void debug(String format, Object arg1, Object arg2) {
-        filterAndLog_2(FQCN, null, Level.DEBUG, format, arg1, arg2, null);
+        filterAndLog_2(FQCN, null, Level.DEBUG, LocalTrace.getTraceId() + format, arg1, arg2, null);
     }
 
     @Override
     public void debug(String format, Object... argArray) {
-        filterAndLog_0_Or3Plus(FQCN, null, Level.DEBUG, format, argArray, null);
+        filterAndLog_0_Or3Plus(FQCN, null, Level.DEBUG, LocalTrace.getTraceId() + format, argArray, null);
     }
 
     @Override
     public void debug(String msg, Throwable t) {
-        filterAndLog_0_Or3Plus(FQCN, null, Level.DEBUG, msg, null, t);
+        filterAndLog_0_Or3Plus(FQCN, null, Level.DEBUG, LocalTrace.getTraceId() + msg, null, t);
     }
 
     @Override
     public void debug(Marker marker, String msg) {
-        filterAndLog_0_Or3Plus(FQCN, marker, Level.DEBUG, msg, null, null);
+        filterAndLog_0_Or3Plus(FQCN, marker, Level.DEBUG, LocalTrace.getTraceId() + msg, null, null);
     }
 
     @Override
     public void debug(Marker marker, String format, Object arg) {
-        filterAndLog_1(FQCN, marker, Level.DEBUG, format, arg, null);
+        filterAndLog_1(FQCN, marker, Level.DEBUG, LocalTrace.getTraceId() + format, arg, null);
     }
 
     @Override
     public void debug(Marker marker, String format, Object arg1, Object arg2) {
-        filterAndLog_2(FQCN, marker, Level.DEBUG, format, arg1, arg2, null);
+        filterAndLog_2(FQCN, marker, Level.DEBUG, LocalTrace.getTraceId() + format, arg1, arg2, null);
     }
 
     @Override
     public void debug(Marker marker, String format, Object... argArray) {
-        filterAndLog_0_Or3Plus(FQCN, marker, Level.DEBUG, format, argArray, null);
+        filterAndLog_0_Or3Plus(FQCN, marker, Level.DEBUG, LocalTrace.getTraceId() + format, argArray, null);
     }
 
     @Override
     public void debug(Marker marker, String msg, Throwable t) {
-        filterAndLog_0_Or3Plus(FQCN, marker, Level.DEBUG, msg, null, t);
+        filterAndLog_0_Or3Plus(FQCN, marker, Level.DEBUG, LocalTrace.getTraceId() + msg, null, t);
     }
 
     @Override
     public void error(String msg) {
-        filterAndLog_0_Or3Plus(FQCN, null, Level.ERROR, msg, null, null);
+        filterAndLog_0_Or3Plus(FQCN, null, Level.ERROR, LocalTrace.getTraceId() + msg, null, null);
     }
 
     @Override
     public void error(String format, Object arg) {
-        filterAndLog_1(FQCN, null, Level.ERROR, format, arg, null);
+        filterAndLog_1(FQCN, null, Level.ERROR, LocalTrace.getTraceId() + format, arg, null);
     }
 
     @Override
     public void error(String format, Object arg1, Object arg2) {
-        filterAndLog_2(FQCN, null, Level.ERROR, format, arg1, arg2, null);
+        filterAndLog_2(FQCN, null, Level.ERROR, LocalTrace.getTraceId() + format, arg1, arg2, null);
     }
 
     @Override
     public void error(String format, Object... argArray) {
-        filterAndLog_0_Or3Plus(FQCN, null, Level.ERROR, format, argArray, null);
+        filterAndLog_0_Or3Plus(FQCN, null, Level.ERROR, LocalTrace.getTraceId() + format, argArray, null);
     }
 
     @Override
     public void error(String msg, Throwable t) {
-        filterAndLog_0_Or3Plus(FQCN, null, Level.ERROR, msg, null, t);
+        filterAndLog_0_Or3Plus(FQCN, null, Level.ERROR, LocalTrace.getTraceId() + msg, null, t);
     }
 
     @Override
     public void error(Marker marker, String msg) {
-        filterAndLog_0_Or3Plus(FQCN, marker, Level.ERROR, msg, null, null);
+        filterAndLog_0_Or3Plus(FQCN, marker, Level.ERROR, LocalTrace.getTraceId() + msg, null, null);
     }
 
     @Override
     public void error(Marker marker, String format, Object arg) {
-        filterAndLog_1(FQCN, marker, Level.ERROR, format, arg, null);
+        filterAndLog_1(FQCN, marker, Level.ERROR, LocalTrace.getTraceId() + format, arg, null);
     }
 
     @Override
     public void error(Marker marker, String format, Object arg1, Object arg2) {
-        filterAndLog_2(FQCN, marker, Level.ERROR, format, arg1, arg2, null);
+        filterAndLog_2(FQCN, marker, Level.ERROR, LocalTrace.getTraceId() + format, arg1, arg2, null);
     }
 
     @Override
     public void error(Marker marker, String format, Object... argArray) {
-        filterAndLog_0_Or3Plus(FQCN, marker, Level.ERROR, format, argArray, null);
+        filterAndLog_0_Or3Plus(FQCN, marker, Level.ERROR, LocalTrace.getTraceId() + format, argArray, null);
     }
 
     @Override
     public void error(Marker marker, String msg, Throwable t) {
-        filterAndLog_0_Or3Plus(FQCN, marker, Level.ERROR, msg, null, t);
+        filterAndLog_0_Or3Plus(FQCN, marker, Level.ERROR, LocalTrace.getTraceId() + msg, null, t);
     }
 
     @Override
@@ -619,56 +620,53 @@ public final class Logger implements org.slf4j.Logger, LocationAwareLogger, Appe
 
     @Override
     public void info(String msg) {
-        String id = OperationLogAop.LOG_THREAD_LOCAL.get();
-        if (id != null) {
-            msg = id + "-" + msg;
-        }
-        filterAndLog_0_Or3Plus(FQCN, null, Level.INFO, msg, null, null);
+
+        filterAndLog_0_Or3Plus(FQCN, null, Level.INFO, LocalTrace.getTraceId() + msg, null, null);
     }
 
     @Override
     public void info(String format, Object arg) {
-        filterAndLog_1(FQCN, null, Level.INFO, format, arg, null);
+        filterAndLog_1(FQCN, null, Level.INFO, LocalTrace.getTraceId() + format, arg, null);
     }
 
     @Override
     public void info(String format, Object arg1, Object arg2) {
-        filterAndLog_2(FQCN, null, Level.INFO, format, arg1, arg2, null);
+        filterAndLog_2(FQCN, null, Level.INFO, LocalTrace.getTraceId() + format, arg1, arg2, null);
     }
 
     @Override
     public void info(String format, Object... argArray) {
-        filterAndLog_0_Or3Plus(FQCN, null, Level.INFO, format, argArray, null);
+        filterAndLog_0_Or3Plus(FQCN, null, Level.INFO,LocalTrace.getTraceId() + format, argArray, null);
     }
 
     @Override
     public void info(String msg, Throwable t) {
-        filterAndLog_0_Or3Plus(FQCN, null, Level.INFO, msg, null, t);
+        filterAndLog_0_Or3Plus(FQCN, null, Level.INFO, LocalTrace.getTraceId() + msg , null, t);
     }
 
     @Override
     public void info(Marker marker, String msg) {
-        filterAndLog_0_Or3Plus(FQCN, marker, Level.INFO, msg, null, null);
+        filterAndLog_0_Or3Plus(FQCN, marker, Level.INFO, LocalTrace.getTraceId() + msg, null, null);
     }
 
     @Override
     public void info(Marker marker, String format, Object arg) {
-        filterAndLog_1(FQCN, marker, Level.INFO, format, arg, null);
+        filterAndLog_1(FQCN, marker, Level.INFO, LocalTrace.getTraceId() + format, arg, null);
     }
 
     @Override
     public void info(Marker marker, String format, Object arg1, Object arg2) {
-        filterAndLog_2(FQCN, marker, Level.INFO, format, arg1, arg2, null);
+        filterAndLog_2(FQCN, marker, Level.INFO, LocalTrace.getTraceId() + format, arg1, arg2, null);
     }
 
     @Override
     public void info(Marker marker, String format, Object... argArray) {
-        filterAndLog_0_Or3Plus(FQCN, marker, Level.INFO, format, argArray, null);
+        filterAndLog_0_Or3Plus(FQCN, marker, Level.INFO, LocalTrace.getTraceId() + format, argArray, null);
     }
 
     @Override
     public void info(Marker marker, String msg, Throwable t) {
-        filterAndLog_0_Or3Plus(FQCN, marker, Level.INFO, msg, null, t);
+        filterAndLog_0_Or3Plus(FQCN, marker, Level.INFO, LocalTrace.getTraceId() + msg, null, t);
     }
 
     @Override
@@ -753,47 +751,47 @@ public final class Logger implements org.slf4j.Logger, LocationAwareLogger, Appe
 
     @Override
     public void warn(String msg, Throwable t) {
-        filterAndLog_0_Or3Plus(FQCN, null, Level.WARN, msg, null, t);
+        filterAndLog_0_Or3Plus(FQCN, null, Level.WARN, LocalTrace.getTraceId() + msg , null, t);
     }
 
     @Override
     public void warn(String format, Object arg) {
-        filterAndLog_1(FQCN, null, Level.WARN, format, arg, null);
+        filterAndLog_1(FQCN, null, Level.WARN, LocalTrace.getTraceId() + format, arg, null);
     }
 
     @Override
     public void warn(String format, Object arg1, Object arg2) {
-        filterAndLog_2(FQCN, null, Level.WARN, format, arg1, arg2, null);
+        filterAndLog_2(FQCN, null, Level.WARN, LocalTrace.getTraceId() + format, arg1, arg2, null);
     }
 
     @Override
     public void warn(String format, Object... argArray) {
-        filterAndLog_0_Or3Plus(FQCN, null, Level.WARN, format, argArray, null);
+        filterAndLog_0_Or3Plus(FQCN, null, Level.WARN, LocalTrace.getTraceId() + format, argArray, null);
     }
 
     @Override
     public void warn(Marker marker, String msg) {
-        filterAndLog_0_Or3Plus(FQCN, marker, Level.WARN, msg, null, null);
+        filterAndLog_0_Or3Plus(FQCN, marker, Level.WARN, LocalTrace.getTraceId() + msg, null, null);
     }
 
     @Override
     public void warn(Marker marker, String format, Object arg) {
-        filterAndLog_1(FQCN, marker, Level.WARN, format, arg, null);
+        filterAndLog_1(FQCN, marker, Level.WARN, LocalTrace.getTraceId() + format, arg, null);
     }
 
     @Override
     public void warn(Marker marker, String format, Object... argArray) {
-        filterAndLog_0_Or3Plus(FQCN, marker, Level.WARN, format, argArray, null);
+        filterAndLog_0_Or3Plus(FQCN, marker, Level.WARN, LocalTrace.getTraceId() + format, argArray, null);
     }
 
     @Override
     public void warn(Marker marker, String format, Object arg1, Object arg2) {
-        filterAndLog_2(FQCN, marker, Level.WARN, format, arg1, arg2, null);
+        filterAndLog_2(FQCN, marker, Level.WARN, LocalTrace.getTraceId() + format, arg1, arg2, null);
     }
 
     @Override
     public void warn(Marker marker, String msg, Throwable t) {
-        filterAndLog_0_Or3Plus(FQCN, marker, Level.WARN, msg, null, t);
+        filterAndLog_0_Or3Plus(FQCN, marker, Level.WARN, LocalTrace.getTraceId() + msg, null, t);
     }
 
     public boolean isAdditive() {
