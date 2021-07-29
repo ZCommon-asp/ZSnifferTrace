@@ -18,7 +18,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.util.UUID;
 
 /**
  * @description:
@@ -46,11 +45,21 @@ public class OperationLogAop {
         // 方法开始时间
         long startTime = System.currentTimeMillis();
 
+        // 从请求头获取日志唯一id
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (servletRequestAttributes != null) {
+            HttpServletRequest request = servletRequestAttributes.getRequest();
+            String traceId = request.getHeader(MDCTrace.HEADER_TRACE);
+            if (traceId != null && !"".equals(traceId)) {
+                MDCTrace.put(traceId);
+            }
+        }
+
         /*
          * MDC
          * 判断是否有唯一id，没有则生成一个并存至MDC
          */
-        if ("".equals(MDCTrace.get())) {
+        if (MDCTrace.get() == null || "".equals(MDCTrace.get())) {
             MDCTrace.put();
         }
 
@@ -61,17 +70,15 @@ public class OperationLogAop {
 
         OperationLog operationLog = method.getAnnotation(OperationLog.class);
 
-        String header = "";
+        StringBuilder header = new StringBuilder();
         String[] headerKey = operationLog.printHeader();
-        if (headerKey.length > 0) {
-            ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (headerKey.length > 0 && servletRequestAttributes != null) {
             HttpServletRequest request = servletRequestAttributes.getRequest();
-            if (null != request) {
-                for (String key : headerKey) {
-                    header += request.getHeader(key);
-                }
+            for (String key : headerKey) {
+                header.append(request.getHeader(key));
             }
         }
+
         log.info("method name:{},declaringType:{},method desc:{},request header:{},request params:{}"
                 , signature.getName()
                 , signature.getDeclaringType()

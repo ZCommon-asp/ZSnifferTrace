@@ -1,5 +1,9 @@
 package com.mango.sniffertrace.util;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.experimental.UtilityClass;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -15,19 +19,33 @@ import java.time.temporal.TemporalAdjusters;
  * @see
  * @since
  */
-
+@UtilityClass
 public class DateUtil {
 
+    /**
+     * 时间格式
+     */
+    @Getter
+    @AllArgsConstructor
+    public enum DateFormat{
+        yyyyMMdd("yyyyMMdd", "yyyy年MM月dd日"),
+        yyyyMMddHHmm("yyyyMMddHHmm", "yyyy年MM月dd日HH时mm分"),
+        yyyyMMddHHmmss("yyyyMMddHHmmss", "yyyy年MM月dd日HH时mm分ss秒"),
+        ;
+        private String value;
+        private String desc;
+    }
+
     public static long getRemainNowByDay(int day) {
-        LocalDateTime midnight = LocalDateTime.now().plusDays(day).withHour(0).withMinute(0).withSecond(0).withNano(0);
-        long seconds = ChronoUnit.SECONDS.between(LocalDateTime.now(), midnight);
-        return seconds;
+        LocalDateTime midnight = LocalDateTime.now()
+                .plusDays(day).withHour(0).withMinute(0).withSecond(0).withNano(0);
+        return ChronoUnit.SECONDS.between(LocalDateTime.now(), midnight);
     }
 
     public static long getRemainNowByMonth(int month) {
-        LocalDateTime midnight = LocalDateTime.now().plusMonths(month).with(TemporalAdjusters.firstDayOfMonth()).withHour(0).withMinute(0).withSecond(0).withNano(0);
-        long seconds = ChronoUnit.SECONDS.between(LocalDateTime.now(), midnight);
-        return seconds;
+        LocalDateTime midnight = LocalDateTime.now()
+                .plusMonths(month).with(TemporalAdjusters.firstDayOfMonth()).withHour(0).withMinute(0).withSecond(0).withNano(0);
+        return ChronoUnit.SECONDS.between(LocalDateTime.now(), midnight);
     }
 
 
@@ -41,7 +59,7 @@ public class DateUtil {
      * @see
      */
     public static String plusOfMonthFirst(String srcDate, Integer month, String descPattern) {
-        return LocalDate.parse(srcDate, DateTimeFormatter.ofPattern("yyyyMMdd")).plus(month, ChronoUnit.MONTHS).with(TemporalAdjusters.firstDayOfMonth()).format(DateTimeFormatter.ofPattern(descPattern));
+        return LocalDate.parse(srcDate, DateTimeFormatter.ofPattern(DateFormat.yyyyMMdd.value)).plus(month, ChronoUnit.MONTHS).with(TemporalAdjusters.firstDayOfMonth()).format(DateTimeFormatter.ofPattern(descPattern));
     }
 
     public static String plusOfMonthFirst(int month, String pattern) {
@@ -49,12 +67,12 @@ public class DateUtil {
     }
 
     public static String nextMonthFirst() {
-        return plusOfMonthFirst(1, "yyyyMMdd");
+        return plusOfMonthFirst(1, DateFormat.yyyyMMdd.value);
     }
 
 
     public static String plusOfMonthLast(String srcDate, Integer month, String descPattern) {
-        return LocalDate.parse(srcDate, DateTimeFormatter.ofPattern("yyyyMMdd")).plus(month, ChronoUnit.MONTHS).with(TemporalAdjusters.firstDayOfMonth()).format(DateTimeFormatter.ofPattern(descPattern));
+        return LocalDate.parse(srcDate, DateTimeFormatter.ofPattern(DateFormat.yyyyMMdd.value)).plus(month, ChronoUnit.MONTHS).with(TemporalAdjusters.firstDayOfMonth()).format(DateTimeFormatter.ofPattern(descPattern));
     }
 
     public static String plusOfMonthLast(int month, String pattern) {
@@ -117,7 +135,7 @@ public class DateUtil {
      * @see
      */
     public static String getCurrentDay() {
-        return getCurrentDay("yyyyMMdd");
+        return getCurrentDay(DateFormat.yyyyMMdd.value);
     }
 
     public static String getCurrentDay(String pattern) {
@@ -160,7 +178,7 @@ public class DateUtil {
      * @see
      */
     public static String getAfterDay(int day) {
-        return getAfterDay(day, "yyyyMMdd");
+        return getAfterDay(day, DateFormat.yyyyMMdd.value);
     }
 
     /***
@@ -179,7 +197,7 @@ public class DateUtil {
 
 
     public static String getAfterByPrecision(Integer amountToAdd) {
-        return getAfterByPrecision(amountToAdd, "yyyyMMddHHmmss", ChronoUnit.MINUTES);
+        return getAfterByPrecision(amountToAdd, DateFormat.yyyyMMddHHmmss.value, ChronoUnit.MINUTES);
     }
 
     /**
@@ -237,7 +255,7 @@ public class DateUtil {
      * @see
      */
     public static String getNow() {
-        return getNow("yyyyMMddHHmmss");
+        return getNow(DateFormat.yyyyMMddHHmmss.value);
     }
 
     /**
@@ -371,65 +389,65 @@ public class DateUtil {
     }
 
 
-    public static void main(String[] args) {
-        System.out.println(plusOfDay(1, "yyyyMMddHHmmss"));
-//        System.out.println("当前日 = " + test.get(test.DAY_OF_MONTH));
-        int x = 0, y = 2, z = 1;
-        y += (z-- / ++x);
-
-        System.out.println("www:" + LocalDate.parse("20200203", DateTimeFormatter.ofPattern("yyyyMMdd")).plus(6, ChronoUnit.MONTHS));
-
-        System.out.println("dateIntervalOfType:" + getDateTimestamp("20200203143818", "yyyyMMddHHmmss"));
-        System.out.println("dateIntervalOfType:" + (DateUtil.getDateTimestamp(DateUtil.plusOfMonthLast(6, "yyyyMMdd"), "yyyyMMdd") - DateUtil.getDateTimestamp("20200203143818", "yyyyMMddHHmmss") + ""));
-        System.out.println(y--);
-        System.out.println("plusOfMonthLast:" + plusOfMonthLast(5, "yyyyMMdd"));
-        System.out.println(dateIntervalOfType("20191101", "yyyyMMdd", ChronoUnit.DAYS));
-        System.out.println(dateIntervalOfType("20191216", "yyyyMMdd", ChronoUnit.MONTHS));
-        System.out.println(dateIntervalOfType("20191201", "yyyyMMdd", ChronoUnit.YEARS));
-        System.out.println("getBetweenNow:" + getBetweenDayNow("20190516231512", "yyyyMMddHHmmss"));
-        System.out.println("2019-04-15 00:00:00".compareTo("2019-04-15 00:00:00.0"));
-        System.out.println(getBeforeDay(7, "yyyy-MM-dd"));
-        System.out.println(getBeforeDay(7, "yyyy-MM-dd").compareTo("null"));
-        System.out.println(getDateTimestamp("2019-05-22 00:08:40", "yyyy-MM-dd HH:mm:ss"));
-        System.out.println(getAfterByPrecision(null, "yyyyMMdd", ChronoUnit.MINUTES));
-        System.out.println(getAfterDay(30));
-        System.out.println(getBeforeDay(Integer.MAX_VALUE - 1, "yyyyMMdd"));
-        System.out.println(getBeforeDay(30 - 1, "yyyyMMdd").compareTo("20190521103625"));
-        System.out.println(getAssignAfterDay("20190618102849", 30, "yyyyMMddHHmmss", "yyyyMMddHHmmss"));
-        //System.out.println("20190626".compareTo(null));
-        System.out.println("20190626".compareTo(""));
-        System.out.println("20190626".compareTo("null"));
-        System.out.println(getTimestampByDay(2019, 02, 03));
-        System.out.println(getAfterByPrecision(30, "yyyyMMddHHmmss", ChronoUnit.DAYS));
-        System.out.println(getDateTimestamp("20190203"));
-        System.out.println(getAfterDay(36500));
-        System.out.println(dateInterval("20190825125300", "20190827235900", "yyyyMMddHHmmss"));
-        System.out.println(dateFormat1("20190825125359"));
-        System.out.println(dateFormat("20190903122359", "yyyyMMddHHmmss", "yyyy年MM月dd日"));
-        System.out.println(getAfterDay(1, "yyyyMMdd" + "235959"));
-
-        System.out.println("20191003125959".compareTo("20191004010101"));
-        /**
-         * 返回给前端的日历对象
-         * day           日期
-         * isSign       是否签到过
-         * isPrize      是否有奖品
-         * isMendSign   是否可以补签
-         * isToday      是否是今天
-         * prizeId      如果有奖品的话 奖品id
-         *
-         */
-
-        System.out.println("plusOfMonthLast:" + plusOfMonthLast(1, "yyyyMMdd"));
-        System.out.println("plusOfMonthAndDayLast:" + plusOfMonthAndDayLast(1, 4, "yyyyMMdd"));
-
-        System.out.println(DateUtil.plusOfChrono(240, ChronoUnit.MINUTES, "yyyy-MM-dd HH:mm:ss"));
-
-        System.out.println("getRemainNowByDay:" + getRemainNowByDay(1));
-        System.out.println("getRemainNowByDay:" + getRemainNowByMonth(1));
-
-
-    }
+//     public static void main(String[] args) {
+//         System.out.println(plusOfDay(1, "yyyyMMddHHmmss"));
+// //        System.out.println("当前日 = " + test.get(test.DAY_OF_MONTH));
+//         int x = 0, y = 2, z = 1;
+//         y += (z-- / ++x);
+//
+//         System.out.println("www:" + LocalDate.parse("20200203", DateTimeFormatter.ofPattern("yyyyMMdd")).plus(6, ChronoUnit.MONTHS));
+//
+//         System.out.println("dateIntervalOfType:" + getDateTimestamp("20200203143818", "yyyyMMddHHmmss"));
+//         System.out.println("dateIntervalOfType:" + (DateUtil.getDateTimestamp(DateUtil.plusOfMonthLast(6, "yyyyMMdd"), "yyyyMMdd") - DateUtil.getDateTimestamp("20200203143818", "yyyyMMddHHmmss") + ""));
+//         System.out.println(y--);
+//         System.out.println("plusOfMonthLast:" + plusOfMonthLast(5, "yyyyMMdd"));
+//         System.out.println(dateIntervalOfType("20191101", "yyyyMMdd", ChronoUnit.DAYS));
+//         System.out.println(dateIntervalOfType("20191216", "yyyyMMdd", ChronoUnit.MONTHS));
+//         System.out.println(dateIntervalOfType("20191201", "yyyyMMdd", ChronoUnit.YEARS));
+//         System.out.println("getBetweenNow:" + getBetweenDayNow("20190516231512", "yyyyMMddHHmmss"));
+//         System.out.println("2019-04-15 00:00:00".compareTo("2019-04-15 00:00:00.0"));
+//         System.out.println(getBeforeDay(7, "yyyy-MM-dd"));
+//         System.out.println(getBeforeDay(7, "yyyy-MM-dd").compareTo("null"));
+//         System.out.println(getDateTimestamp("2019-05-22 00:08:40", "yyyy-MM-dd HH:mm:ss"));
+//         System.out.println(getAfterByPrecision(null, "yyyyMMdd", ChronoUnit.MINUTES));
+//         System.out.println(getAfterDay(30));
+//         System.out.println(getBeforeDay(Integer.MAX_VALUE - 1, "yyyyMMdd"));
+//         System.out.println(getBeforeDay(30 - 1, "yyyyMMdd").compareTo("20190521103625"));
+//         System.out.println(getAssignAfterDay("20190618102849", 30, "yyyyMMddHHmmss", "yyyyMMddHHmmss"));
+//         //System.out.println("20190626".compareTo(null));
+//         System.out.println("20190626".compareTo(""));
+//         System.out.println("20190626".compareTo("null"));
+//         System.out.println(getTimestampByDay(2019, 02, 03));
+//         System.out.println(getAfterByPrecision(30, "yyyyMMddHHmmss", ChronoUnit.DAYS));
+//         System.out.println(getDateTimestamp("20190203"));
+//         System.out.println(getAfterDay(36500));
+//         System.out.println(dateInterval("20190825125300", "20190827235900", "yyyyMMddHHmmss"));
+//         System.out.println(dateFormat1("20190825125359"));
+//         System.out.println(dateFormat("20190903122359", "yyyyMMddHHmmss", "yyyy年MM月dd日"));
+//         System.out.println(getAfterDay(1, "yyyyMMdd" + "235959"));
+//
+//         System.out.println("20191003125959".compareTo("20191004010101"));
+//         /**
+//          * 返回给前端的日历对象
+//          * day           日期
+//          * isSign       是否签到过
+//          * isPrize      是否有奖品
+//          * isMendSign   是否可以补签
+//          * isToday      是否是今天
+//          * prizeId      如果有奖品的话 奖品id
+//          *
+//          */
+//
+//         System.out.println("plusOfMonthLast:" + plusOfMonthLast(1, "yyyyMMdd"));
+//         System.out.println("plusOfMonthAndDayLast:" + plusOfMonthAndDayLast(1, 4, "yyyyMMdd"));
+//
+//         System.out.println(DateUtil.plusOfChrono(240, ChronoUnit.MINUTES, "yyyy-MM-dd HH:mm:ss"));
+//
+//         System.out.println("getRemainNowByDay:" + getRemainNowByDay(1));
+//         System.out.println("getRemainNowByDay:" + getRemainNowByMonth(1));
+//
+//
+//     }
 
 }
 
