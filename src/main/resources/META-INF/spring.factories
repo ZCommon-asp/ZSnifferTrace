@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.mango.sniffertrace.annotation.aop.OperationLogAop,com.mango.sniffertrace.config.FeignRequestInterceptor,com.mango.sniffertrace.config.TraceAsyncConfigurer

@@ -3,14 +3,14 @@ package com.mango.sniffertrace.config;
 import com.mango.sniffertrace.request.MDCTrace;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 /**
 * @description:
 * @author: caozhibo
 * @date: 2021/7/29 17:12
 */
-@Component
+@Configuration
 public class FeignRequestInterceptor implements RequestInterceptor {
 
     @Override

@@ -2,7 +2,6 @@ package com.mango.sniffertrace.annotation.aop;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mango.sniffertrace.annotation.OperationLog;
-import com.mango.sniffertrace.request.LocalTrace;
 import com.mango.sniffertrace.request.MDCTrace;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -11,7 +10,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -26,7 +25,7 @@ import java.lang.reflect.Method;
  */
 @Slf4j
 @Aspect
-@Component
+@Configuration
 public class OperationLogAop {
 
     @Resource
@@ -95,9 +94,9 @@ public class OperationLogAop {
                 , header
                 , objectMapper.writeValueAsString(pjp.getArgs())
                 , objectMapper.writeValueAsString(result)
-                , (System.currentTimeMillis() - startTime));
+                , (System.currentTimeMillis() - startTime) + "ms");
 
-        LocalTrace.LOG_THREAD_LOCAL.remove();
+        MDCTrace.remove();
 
         return result;
     }

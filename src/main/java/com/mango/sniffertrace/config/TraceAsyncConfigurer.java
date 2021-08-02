@@ -3,10 +3,10 @@ package com.mango.sniffertrace.config;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskDecorator;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -18,7 +18,7 @@ import java.util.concurrent.Executor;
  * @date: 2021/7/29 13:51
  */
 @Slf4j
-@Component
+@Configuration
 public class TraceAsyncConfigurer implements AsyncConfigurer {
 
 

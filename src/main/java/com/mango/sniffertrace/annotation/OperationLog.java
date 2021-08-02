@@ -4,7 +4,10 @@ package com.mango.sniffertrace.annotation;
 import java.lang.annotation.*;
 
 /**
- * @author lenovo
+ * 分布式日志增强注解
+ * 提供分布式日志调用链路唯一id
+ *
+ * @author caozhibo
  */
 @Target({ElementType.METHOD,ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

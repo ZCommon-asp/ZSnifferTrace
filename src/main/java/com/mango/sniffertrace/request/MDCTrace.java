@@ -2,10 +2,9 @@ package com.mango.sniffertrace.request;
 
 import cn.hutool.core.util.RandomUtil;
 import com.mango.sniffertrace.util.DateUtil;
+import lombok.experimental.UtilityClass;
 import org.slf4j.MDC;
 
-import java.util.Random;
-import java.util.UUID;
 
 /**
  * @author: JacX.
@@ -15,6 +14,7 @@ import java.util.UUID;
  * @see
  * @since
  */
+@UtilityClass
 public class MDCTrace {
     public static final String MDC_TRACE = "MDC_TRACE:";
 
@@ -38,5 +38,9 @@ public class MDCTrace {
 
     public static void put(String traceId) {
         MDC.put(MDC_TRACE, traceId);
+    }
+
+    public static void remove() {
+        MDC.clear();
     }
 }
