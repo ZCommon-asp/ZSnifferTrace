@@ -9,7 +9,7 @@ import java.lang.annotation.*;
  *
  * @author caozhibo
  */
-@Target({ElementType.METHOD,ElementType.TYPE})
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface OperationLog {
@@ -18,7 +18,7 @@ public @interface OperationLog {
      * 打印请求头参数
      * @return
      */
-    String[] printHeader();
+    String[] printHeader() default "";
 
     /**
      * 描述

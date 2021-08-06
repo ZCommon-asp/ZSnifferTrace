@@ -1,7 +1,6 @@
 package com.mango.sniffertrace.annotation.aop;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mango.sniffertrace.annotation.OperationLog;
 import com.mango.sniffertrace.request.MDCTrace;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -16,34 +15,64 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @description:
  * @author: caozhibo
- * @date: 2021/6/24 11:31
+ * @date: 2021/8/5 18:15
  */
 @Slf4j
 @Aspect
 @Configuration
-public class OperationLogAop {
+public class LogScanAop {
 
     @Resource
     private ObjectMapper objectMapper;
 
+    public static final List<String> PACKAGES = new ArrayList<>();
 
-    /**
-     * 定义切面
-     */
-    @Pointcut("@annotation(com.mango.sniffertrace.annotation.OperationLog)")
+
+    @Pointcut("execution(public * com..controller.*.*(..))")
     public void pointCut() {
+
     }
 
     @Around("pointCut()")
     public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
-        // 方法开始时间
+
+        // 记录方法开始时间
         long startTime = System.currentTimeMillis();
+
+        // 如果处理请求的线程已保存了TraceId，则不需要进行后续的处理流程
+        if (MDCTrace.get() != null) {
+            return pjp.proceed();
+        }
+
+        // 获取方法签名
+        Signature signature = pjp.getSignature();
+        MethodSignature methodSignature = (MethodSignature) signature;
+        String packagePath = methodSignature.getDeclaringTypeName() + "." + signature.getName();
+
+
+        boolean isOk = false;
+
+        for (String path : PACKAGES) {
+            if (path.length() <= packagePath.length()) {
+                String prefix = packagePath.subSequence(0, path.length()).toString();
+                if (path.equals(prefix)) {
+                    isOk = true;
+                    break;
+                }
+            }
+        }
+
+        if (!isOk) {
+            return pjp.proceed();
+        }
+
 
         // 从请求头获取日志唯一id
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -63,32 +92,14 @@ public class OperationLogAop {
             MDCTrace.put();
         }
 
-        // 获取方法签名
-        Signature signature = pjp.getSignature();
-        MethodSignature methodSignature = (MethodSignature) signature;
-        Method method = methodSignature.getMethod();
-
-        OperationLog operationLog = method.getAnnotation(OperationLog.class);
-
-        StringBuilder header = new StringBuilder();
-        String[] headerKey = operationLog.printHeader();
-        if (headerKey.length > 0 && servletRequestAttributes != null) {
-            HttpServletRequest request = servletRequestAttributes.getRequest();
-            for (String key : headerKey) {
-                header.append(request.getHeader(key));
-            }
-        }
-
         log.info("method name:"+ signature.getName()
-                        + ",declaringType:" + signature.getDeclaringType()
-                        + ",method desc:" + operationLog.desc()
-                        + ",request header:" + header
-                        + ",request params:" + Arrays.toString(pjp.getArgs()));
+                + ",declaringType:" + signature.getDeclaringType()
+                + ",request params:" + Arrays.toString(pjp.getArgs()));
 
         Object result = pjp.proceed();
 
         log.info("request result:" + objectMapper.writeValueAsString(result)
-                        + ",request time consuming:" + (System.currentTimeMillis() - startTime) + "ms");
+                + ",request time consuming:" + (System.currentTimeMillis() - startTime) + "ms");
 
         MDCTrace.remove();
 
