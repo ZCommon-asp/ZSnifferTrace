@@ -1,7 +1,7 @@
-package com.mango.sniffertrace.annotation;
+package com.aspire.sniffertrace.annotation;
 
 
-import com.mango.sniffertrace.annotation.aop.LogSelector;
+import com.aspire.sniffertrace.annotation.aop.LogSelector;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

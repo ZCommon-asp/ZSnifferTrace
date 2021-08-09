@@ -1,7 +1,7 @@
-package com.mango.sniffertrace.annotation.aop;
+package com.aspire.sniffertrace.annotation.aop;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mango.sniffertrace.request.MDCTrace;
+import com.aspire.sniffertrace.request.MDCTrace;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;

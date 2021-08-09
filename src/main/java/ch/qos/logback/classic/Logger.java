@@ -21,7 +21,7 @@ import ch.qos.logback.core.CoreConstants;
 import ch.qos.logback.core.spi.AppenderAttachable;
 import ch.qos.logback.core.spi.AppenderAttachableImpl;
 import ch.qos.logback.core.spi.FilterReply;
-import com.mango.sniffertrace.request.MDCTrace;
+import com.aspire.sniffertrace.request.MDCTrace;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 import org.slf4j.spi.LocationAwareLogger;

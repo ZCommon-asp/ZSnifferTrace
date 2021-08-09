@@ -1,7 +1,7 @@
-package com.mango.sniffertrace.request;
+package com.aspire.sniffertrace.request;
 
 import cn.hutool.core.util.RandomUtil;
-import com.mango.sniffertrace.util.DateUtil;
+import com.aspire.sniffertrace.util.DateUtil;
 import lombok.experimental.UtilityClass;
 import org.slf4j.MDC;
 

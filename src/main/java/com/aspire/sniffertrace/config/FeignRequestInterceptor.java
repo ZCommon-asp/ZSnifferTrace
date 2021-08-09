@@ -1,6 +1,6 @@
-package com.mango.sniffertrace.config;
+package com.aspire.sniffertrace.config;
 
-import com.mango.sniffertrace.request.MDCTrace;
+import com.aspire.sniffertrace.request.MDCTrace;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.mango.sniffertrace.annotation;
+package com.aspire.sniffertrace.annotation;
 
 
 import java.lang.annotation.*;

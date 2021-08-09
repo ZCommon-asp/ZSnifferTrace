@@ -1,6 +1,6 @@
-package com.mango.sniffertrace.annotation.aop;
+package com.aspire.sniffertrace.annotation.aop;
 
-import com.mango.sniffertrace.annotation.LogScan;
+import com.aspire.sniffertrace.annotation.LogScan;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;

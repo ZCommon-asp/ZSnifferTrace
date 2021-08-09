@@ -1,4 +1,4 @@
-package com.mango.sniffertrace.util;
+package com.aspire.sniffertrace.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
